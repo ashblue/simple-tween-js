@@ -2,13 +2,39 @@
 
 <html>
 <head>
-    <title>Canvas Break</title>
+    <title>Canvas Tweening Demo</title>
+    <link rel="stylesheet" type="text/css" href="style/style.css">
 </head>
 
 <body style="text-align: center;">
-    <canvas id="canvas" width="500" height="500" style="border: 1px solid #aaa;">
+    <canvas id="canvas" class="break" width="700" height="400" style="border: 1px solid #aaa;">
         Download Google Chrome to view the demo
     </canvas>
+
+    <div class="break">
+        <span class="float-l"><label>X Start:</label> <input id="x-start" type="text" value="0"></span>
+        <span class="float-l"><label>X End:</label> <input id="x-end" type="text" value="300"></span>
+        <span class="float-l"><label>X Duration:</label> <input id="x-dur" type="text" value="1000"></span>
+        <span class="float-l"><label>Y Start:</label> <input id="y-start" type="text" value="0"></span>
+        <span class="float-l"><label>Y End:</label> <input id="y-end" type="text" value="300"></span>
+        <span class="float-l"><label>X Duration:</label> <input id="y-dur" type="text" value="1000"></span>
+    </div>
+
+    <div class="">
+        X Animation:
+        <a class="btn-x active" data-tween="linear" href="#">Linear</a>
+        <a class="btn-x" data-tween="quadIn" href="#">Quadratic In</a>
+        <a class="btn-x" data-tween="quadOut" href="#">Quadtratic Out</a>
+    </div>
+
+    <div class="break">
+        Y Animation:
+        <a class="btn-y active" data-tween="linear" href="#">Linear</a>
+        <a class="btn-y" data-tween="quadIn" href="#">Quadratic In</a>
+        <a class="btn-y" data-tween="quadOut" href="#">Quadtratic Out</a>
+    </div>
+
+    <a id="run-animation" href="#">Run Animation</a>
 
     <script type="text/javascript" src="js/helpers/tween.js"></script>
     <script type="text/javascript" src="js/general.js"></script>

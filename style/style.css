@@ -1,0 +1,16 @@
+.break {
+    margin-bottom: 15px;
+}
+
+input {
+    width: 40px;
+    margin-right: 10px;
+}
+
+a {
+    margin-right: 5px;
+}
+
+.active {
+    background: #ff0;
+}

@@ -18,70 +18,130 @@ window.requestAnimFrame = ( function() {
     };
 }());
 
-var game = {
-    // Setup configuration
-    canvas: document.getElementById('canvas'),
-    satDelay: true,
-    satCount: 0,
-    setup: function() {
-        if (this.canvas.getContext){
-            // Setup variables
-            this.ctx = this.canvas.getContext('2d');
+var game;
 
-            // Run the game
-            this.init();
-            this.animate();
+(function (document) {
+    // Grab dom elements
+    var X_START = document.getElementById('x-start');
+    var X_END = document.getElementById('x-end');
+    var X_DURATION = document.getElementById('x-dur');
+    var Y_START = document.getElementById('y-start');
+    var Y_END = document.getElementById('y-end');
+    var Y_DURATION = document.getElementById('y-dur');
+    var X_BTNS = document.getElementsByClassName('btn-x');
+    var Y_BTNS = document.getElementsByClassName('btn-y');
+    var RUN = document.getElementById('run-animation');
+
+    var _xAnimation = 'linear';
+    var _yAnimation = 'linear';
+
+    var square;
+
+    var _events = {
+        setXAnimation: function (e) {
+            e.preventDefault();
+
+            for (var i = X_BTNS.length; i--;) {
+                X_BTNS[i].classList.remove('active');
+            }
+            this.classList.add('active');
+
+            _xAnimation = this.dataset.tween;
+        },
+
+        setYAnimation: function (e) {
+            e.preventDefault();
+
+            for (var i = Y_BTNS.length; i--;) {
+                Y_BTNS[i].classList.remove('active');
+            }
+            this.classList.add('active');
+
+            _yAnimation = this.dataset.tween;
+        },
+
+        runTween: function (e) {
+            e.preventDefault();
+
+            square.tweenX = new Tween(parseInt(X_START.value, 10), parseInt(X_END.value, 10), parseInt(X_DURATION.value, 10), _xAnimation);
+            square.tweenY = new Tween(parseInt(Y_START.value, 10), parseInt(Y_END.value, 10), parseInt(Y_DURATION.value, 10), _yAnimation);
         }
-    },
+    };
 
-    init: function() {
-        square.init();
-    },
+    game = {
+        canvas: document.getElementById('canvas'),
 
-    animate: function() {
-        // Create delta
-        game.time = Date.now();
-        game.delta = game.time - (game.timeNow || game.time);
+        setup: function() {
+            if (this.canvas.getContext) {
+                // Configure DOM elements
+                for (var i = X_BTNS.length; i--;) {
+                    X_BTNS[i].addEventListener('click', _events.setXAnimation);
+                }
 
-        game.draw();
-        game.play = window.requestAnimFrame(game.animate);
+                for (var i = Y_BTNS.length; i--;) {
+                    Y_BTNS[i].addEventListener('click', _events.setYAnimation);
+                }
 
-        // Remember delta location
-        game.timeNow = game.time;
-    },
+                RUN.addEventListener('click', _events.runTween);
 
-    draw: function() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                // Setup variables
+                this.ctx = this.canvas.getContext('2d');
 
-        // Draw objects
-        square.update();
-        square.draw();
-    }
-};
+                // Run the game
+                this.init();
+                this.animate();
+            }
+        },
 
-var square = {
-    x: 0,
-    y: 0,
-    width: 30,
-    height: 30,
-    distance: 300,
-    duration: 1000,
+        init: function() {
+            square.init();
+        },
 
-    init: function () {
-        this.tweenX = new Tween(this.x, this.distance, this.duration, 'linear');
-        this.tweenY = new Tween(this.y, this.distance, this.duration, 'quadInOut');
-    },
+        animate: function() {
+            // Create delta
+            game.time = Date.now();
+            game.delta = game.time - (game.timeNow || game.time);
 
-    update: function () {
-        this.x = this.tweenX.getValue();
-        this.y = this.tweenY.getValue();
-    },
+            game.draw();
+            game.play = window.requestAnimFrame(game.animate);
 
-    draw: function () {
-        game.ctx.fillRect(this.x, this.y, this.width, this.height);
-    }
-};
+            // Remember delta location
+            game.timeNow = game.time;
+        },
 
-window.onload = function () {
-    game.setup();
-};
+        draw: function() {
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+            // Draw objects
+            square.update();
+            square.draw();
+        }
+    };
+
+    var square = {
+        x: 0,
+        y: 0,
+        width: 30,
+        height: 30,
+        distance: 300,
+        duration: 1000,
+
+        init: function () {
+            this.tweenX = new Tween(this.x, this.distance, this.duration, 'linear');
+            this.tweenY = new Tween(this.y, this.distance, this.duration, 'linear');
+        },
+
+        update: function () {
+            this.x = this.tweenX.getValue();
+            this.y = this.tweenY.getValue();
+        },
+
+        draw: function () {
+            game.ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+    };
+
+    window.onload = function () {
+        game.setup();
+    };
+}(document));
