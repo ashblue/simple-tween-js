@@ -49,11 +49,12 @@
      * @todo Ability to reset the tween to make it run the from the current time
      * @todo Ability to attach a callback at the end
      * @todo Ability to change all 4 of the tweens properties on the fly
+     * @todo Allow the tween to repeat in reverse so it goes back and forth smoothly
      */
-    window.Tween = function (startValue, endValue, duration, animationType) {
+    window.Tween = function (startValue, distance, duration, animationType) {
         this.startTime = Date.now();
         this.startValue = startValue;
-        this.endValue = endValue;
+        this.distance = distance;
         this.duration = duration;
         this.animationType = animationType;
     };
@@ -64,7 +65,7 @@
      */
     window.Tween.prototype.getValue = function () {
         return this.startTime + this.duration > game.time ?
-            _easingLibrary[this.animationType](game.time - this.startTime, this.startValue, this.endValue, this.duration) :
-            this.endValue;
+            _easingLibrary[this.animationType](game.time - this.startTime, this.startValue, this.distance, this.duration) :
+            this.startValue + this.distance;
     };
 }(window));
