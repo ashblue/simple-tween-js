@@ -30,10 +30,20 @@ var game;
     var Y_DURATION = document.getElementById('y-dur');
     var X_BTNS = document.getElementsByClassName('btn-x');
     var Y_BTNS = document.getElementsByClassName('btn-y');
+    var TRAIL = document.getElementById('trail');
     var RUN = document.getElementById('run-animation');
+    var LOOP = document.getElementById('loop');
+    var REPEAT = document.getElementById('repeat');
 
     var _xAnimation = 'linear';
     var _yAnimation = 'linear';
+    var _trail = false;
+    var _loop = false;
+    var _repeat = false;
+
+    var _private = {
+
+    };
 
     var square;
 
@@ -63,8 +73,30 @@ var game;
         runTween: function (e) {
             e.preventDefault();
 
-            square.tweenX = new Tween(parseInt(X_START.value, 10), parseInt(X_END.value, 10), parseInt(X_DURATION.value, 10), _xAnimation);
-            square.tweenY = new Tween(parseInt(Y_START.value, 10), parseInt(Y_END.value, 10), parseInt(Y_DURATION.value, 10), _yAnimation);
+            game.ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
+            square.tweenX = new Tween(parseInt(X_START.value, 10), parseInt(X_END.value, 10), parseInt(X_DURATION.value, 10), _xAnimation, _loop || _repeat);
+            square.tweenY = new Tween(parseInt(Y_START.value, 10), parseInt(Y_END.value, 10), parseInt(Y_DURATION.value, 10), _yAnimation, _loop || _repeat);
+        },
+
+        clickCanvas: function (e) {
+            // Force set distance relative to start
+            X_END.value = e.pageX - this.offsetLeft - parseInt(X_START.value, 10);
+            Y_END.value = e.pageY - this.offsetTop - parseInt(Y_START.value, 10);
+
+            // Force click run
+            RUN.click();
+        },
+
+        toggleTrail: function (e) {
+            _trail = !_trail;
+        },
+
+        toggleLoop: function () {
+            _loop = _loop ? false : 'loop';
+        },
+
+        toggleRepeat: function () {
+            _repeat = _repeat ? false : 'repeat';
         }
     };
 
@@ -73,16 +105,7 @@ var game;
 
         setup: function() {
             if (this.canvas.getContext) {
-                // Configure DOM elements
-                for (var i = X_BTNS.length; i--;) {
-                    X_BTNS[i].addEventListener('click', _events.setXAnimation);
-                }
-
-                for (var i = Y_BTNS.length; i--;) {
-                    Y_BTNS[i].addEventListener('click', _events.setYAnimation);
-                }
-
-                RUN.addEventListener('click', _events.runTween);
+                this.bind();
 
                 // Setup variables
                 this.ctx = this.canvas.getContext('2d');
@@ -93,11 +116,35 @@ var game;
             }
         },
 
+        bind: function () {
+            // Animations
+            for (var i = X_BTNS.length; i--;) {
+                X_BTNS[i].addEventListener('click', _events.setXAnimation);
+            }
+
+            for (var i = Y_BTNS.length; i--;) {
+                Y_BTNS[i].addEventListener('click', _events.setYAnimation);
+            }
+
+            // Checkboxes
+            TRAIL.addEventListener('click', _events.toggleTrail);
+            LOOP.addEventListener('click', _events.toggleLoop);
+            REPEAT.addEventListener('click', _events.toggleRepeat);
+
+            this.canvas.addEventListener('click', _events.clickCanvas);
+
+            RUN.addEventListener('click', _events.runTween);
+        },
+
         init: function() {
             square.init();
         },
 
         animate: function() {
+            if (!_trail) {
+                game.ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
+            }
+
             // Create delta
             game.time = Date.now();
             game.delta = game.time - (game.timeNow || game.time);
@@ -110,8 +157,6 @@ var game;
         },
 
         draw: function() {
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
             // Draw objects
             square.update();
             square.draw();
