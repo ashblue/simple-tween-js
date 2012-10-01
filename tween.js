@@ -6,7 +6,7 @@
  * time to make things more accurate
  * @todo Can the tween methods not be prototypes so they're static?
  */
-(function () {
+(function (window) {
     /**
      * Supports easing for the following commands you can demo at
      * http://ashblue.github.com/canvas-tween-demo/ 'linear', 'quadIn', 'quadOut',
@@ -264,4 +264,4 @@
 
         return this;
     };
-}());
+}(window));
