@@ -11,7 +11,7 @@ the library does work and has been tested in IE9)
 1. Download the minified or regular tween.js file and place it in your project files
 2. Include the tween script at the bottom of your page, before your other JavaScript files
 
-    ```
+    ```javascript
     <script type="text/javascript" src="tween.min.js"></script>
     ```
 3. You can now create new tweens with syntax similar to the following.
