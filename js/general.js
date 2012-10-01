@@ -40,11 +40,6 @@ var game;
     var _trail = false;
     var _loop = false;
     var _repeat = false;
-
-    var _private = {
-
-    };
-
     var square;
 
     var _events = {
@@ -122,7 +117,7 @@ var game;
                 X_BTNS[i].addEventListener('click', _events.setXAnimation);
             }
 
-            for (var i = Y_BTNS.length; i--;) {
+            for (i = Y_BTNS.length; i--;) {
                 Y_BTNS[i].addEventListener('click', _events.setYAnimation);
             }
 
