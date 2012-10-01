@@ -10,13 +10,12 @@ the library does work and has been tested in IE9)
 
 1. Download the minified or regular tween.js file and place it in your project files
 2. Include the tween script at the bottom of your page, before your other JavaScript files
-```javascript
-<script type="text/javascript" src="tween.min.js"></script>
-```
+
+    <script type="text/javascript" src="tween.min.js"></script>
+
 3. You can now create new tweens with syntax similar to the following.
-    ```javascript
+
     var myTween = new Tween(startValue, distance, duration, animationType, loop);
-    ```
 
 ##Browser Support
 Known to be stable in the following browsers. Could very well work in older versions
@@ -30,12 +29,13 @@ such as IE8, haven't tested. Mainly because the demo is written in HTML5's Canva
 
 ##Usage Guide
 1. Create a new Tween object
-    ```javascript
+
     var myTween = new Tween(startValue, distance, duration, animationType, loop);
-    ```
+
 2. You can then get the tween's current value by calling getValue
-    ```javascript
+
     myTween.getValue();
+
 3. See the below methods / docs for more things you can do
 
 ###Methods / Docs
