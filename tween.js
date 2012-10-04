@@ -246,9 +246,9 @@
      * @returns {self}
      */
     window.Tween.prototype.set = function (startValue, distance, duration, animationType, loop) {
-        this.startValue = startValue || this.startValue;
-        this.distance = distance || this.distance;
-        this.duration = duration || this.duration;
+        this.startValue = typeof startValue === 'number' ? startValue : this.startValue;
+        this.distance = typeof distance === 'number' ? distance : this.distance;
+        this.duration = typeof duration === 'number' ? duration : this.duration;
         this.animationType = animationType || this.animationType;
         this.loop = loop || this.loop;
 
