@@ -1,7 +1,7 @@
 Simple Tween JS
 =================
 
-Simple Tween JS is a microframework for your other projects that allows you to easily integrate Tweens by dropping in a file. The performance is quite optimized and has a minimal impact on your application. Its originally designed for HTML Canvas JavaScript applications, but you can use it for just about anything JavaScript related.
+Simple Tween JS is a tiny microframework for easily integrating Tweens by dropping in a file. The performance is uber optimized and has a minimal impact on your application. Its originally designed for HTML Canvas JavaScript applications, but you can use it for just about anything JavaScript related.
 
 Live demo at http://ashblue.github.com/simple-tween-js/ (demo broken in IE9, but
 the library does work and has been tested in IE9)
